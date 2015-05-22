@@ -19,7 +19,7 @@ class DDP {
     DDP();
     
     // WebSocket
-    boolean setup(String host, String path = "/", int port = 80);
+    bool setup(String host, String path = "/", int port = 80);
     
     // DDP    
     void connect(String session, String version, int support[]);

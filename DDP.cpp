@@ -10,23 +10,26 @@ DDP::DDP() {
 
 // Public Methods //////////////////////////////////////////////////////////////
 /*
-  setup
+ * setup
  */
  
-boolean DDP::setup(String host, String path /* = "/" */, int port /* = 80 */) {
+bool DDP::setup(String host, String path /* = "/" */, int port /* = 80 */) {
   // Save args
   _host = host;
   _path = path;
   _port = port;
   
-  boolean connected = false;
+  bool connected = false;
     
   // Connect to the websocket server
-  if (_client.connect("echo.websocket.org", _port)) {
+  if (_client.connect("winter.ceit.uq.edu.au", 4000)) {
     Serial.println("Connected to server");
     connected = true;
     
     // Handshake with server
+    _webSocketClient.path = "/websocket";
+    _webSocketClient.host = "winter.ceit.uq.edu.au";
+
     if (_webSocketClient.handshake(_client)) {
       Serial.println("Handshake successful");
       connected = true;
