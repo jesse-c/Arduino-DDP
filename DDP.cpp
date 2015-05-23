@@ -234,4 +234,55 @@ void DDP::pong(String id /* = "" */) {
 }
 
 /* Remote procedure calls ****************************************************/
+/*
+ * method
+ *
+ *    @method       string (method name)
+ *    @params       optional array of EJSON items (parameters to the method)
+ *    @id           string (an arbitrary client-determined identifier for this method call)
+ *    @randomSeed   optional JSON value (an arbitrary client-determined seed for pseudo-random generators)
+ */
+void DDP::method() {
+  // Test call test
+  JsonObject& root = _jsonBuffer.createObject();
+  root["msg"] = "method";
+  root["method"] = "test";
+  JsonArray& params = _jsonBuffer.createArray();
+  root["params"] = params;
+  root["id"] = "1";
+
+  char buffer[200];
+  root.printTo(buffer, sizeof(buffer));
+
+  _webSocketClient.sendData(buffer);
+
+  // Don't move on till we've handled the expected result and updated msgs
+  bool handledResult = false;
+  bool handledUpdated = false;
+
+  while (!handledResult || !handledUpdated) {
+    String data;
+    _webSocketClient.getData(data);
+
+    // Examples
+    // data: {"msg":"result","id":"1"}
+    // {"msg":"result","id":"1","result":"test"}
+    if (data.length() > 0 && data.indexOf("result") >= 0) {
+      Serial.println("Handled method/result");
+
+      // TODO Params
+      //
+
+      handledResult = true;
+    // data: {"msg":"updated","methods":["1"]}
+    } else if (data.length() > 0 && data.indexOf("updated") >= 0) {
+      Serial.println("Handled method/updated");
+
+      handledUpdated = true;
+    }
+
+    delay(_pause);
+  }
+}
+
 // Private Methods /////////////////////////////////////////////////////////////
