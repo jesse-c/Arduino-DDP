@@ -126,7 +126,11 @@ bool DDP::connect() {
     sid++;
     delay(_pause);
   }
-  Serial.println("Got sid msg");
+  if (sid == 5) {
+    Serial.println("Stopped waiting for sid msg");
+  } else {
+    Serial.println("Got sid msg");
+  }
 
   return status;
 
