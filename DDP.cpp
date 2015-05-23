@@ -11,8 +11,11 @@ DDP::DDP() {
 // Public Methods //////////////////////////////////////////////////////////////
 /*
  * setup
+ *
+ *    @host
+ *    @path
+ *    @port
  */
- 
 bool DDP::setup(String host, String path /* = "/" */, int port /* = 80 */) {
   // Save args
   _host = host;
@@ -69,31 +72,30 @@ void DDP::output() {
 /*
  * connect (client -> server)
  */
-void DDP::connect() {
+bool DDP::connect() {
   // Prepare message
-  JsonObject& root = jsonBuffer.createObject();
+  JsonObject& root = _jsonBuffer.createObject();
   root["msg"]     = "connect";
   root["version"] = "1";
-  JsonArray& array = jsonBuffer.createArray();
-  array.add("1");
-  root["support"] = array;
+  JsonArray& support = _jsonBuffer.createArray();
+  support.add("1");
+  root["support"] = support;
 
-  char buffer[256];
-  //root.printTo(Serial);
+  char buffer[200];
   root.printTo(buffer, sizeof(buffer));
 
   // Send message
   _webSocketClient.sendData(buffer);
   delay(500);
   
-  // Handle response
   /*
-  connected (server->client)
-    session: string (an identifier for the DDP session)
-  OR
-  failed (server->client)
-    version: string (a suggested protocol version to connect with)
-  */
+   * Handle response
+   *
+   * connected (server->client)
+   *    @session: string (an identifier for the DDP session)
+   * failed (server->client)
+   *    @version: string (a suggested protocol version to connect with)
+   */
   String response;
   _webSocketClient.getData(response);
 
@@ -102,60 +104,101 @@ void DDP::connect() {
     Serial.println(response);
   }
 
+  bool status = false;
+
   if (response.indexOf("failed") >= 0) {
-    Serial.println("failed");
+    status = false;
   } else if (response.indexOf("connected") >= 0) {
-    Serial.println("connected");
+    status = true;
+    // {"msg":"connected","session":"zwKbMXqs7jcKrke4Y"}
+    _session = response.substring(30, 47);
   }
 
+  return status;
+
   /*
-  root = jsonBuffer.parseObject(response);
+  root = _jsonBuffer.parseObject(response);
   if (!root.success()) {
     Serial.println("parseObject() failed");
     return;
   }
 
-  String msg = root["msg"];
+  char* msg = root["msg"];
+  String msgs(msg);
 
-  if (msg.equals("failed")) {
+  if (msgs.equals("failed")) {
     Serial.println("failed");
+  } else if (msgs.equals("connected")) {
+    Serial.println("connected");
   }
   */
 }
 
 /*
- * connect (client -> server)
- *
- * session: string (if trying to reconnect to an existing DDP session)
- * version: string (the proposed protocol version)
- * support: array of strings (protocol versions supported by the client, in order of preference)  
+ * listen
  */
+void DDP::listen() {
+  // TODO Check for Meteor connection too
+  while(_client.connected()) {
+    String data;
+    _webSocketClient.getData(data);
+
+    if (data.length() == 0) {
+      Serial.println("No data...");
+      delay(500);
+      continue;
+    }
+
+    Serial.println("------------------------------");
+    Serial.print("data: ");
+    Serial.println(data);
+
+    // Ping
+    if (data.indexOf("ping") >= 0) {
+      Serial.println("ping");
+
+      // TODO Call pong with optional ID
+      Serial.println("Pong-ing");
+      void pong();
+
+      continue;
+    }
+
+    // /Pong
+    if (data.indexOf("pong") >= 0) {
+      Serial.println("pong");
+
+      continue;
+    }
+
+    delay(500);
+  }
+}
+
 /*
-void DDP::connect(String session, int version, int support[]) {
-  // Prepare message
-  JsonObject& root = jsonBuffer.createObject();
-  root["sensor"] = "gps";
+ * ping
+ *    @id   optional string (identifier used to correlate with response)
+ */
+void DDP::ping() {
+}
+
+/*
+ * pong
+ *    @id   optional string (same as received in the ping message)
+ */
+void DDP::pong(String id /* = "" */) {
+  JsonObject& root = _jsonBuffer.createObject();
+  root["msg"] = "pong";
+
+  if (id.length() > 0) {
+    root["id"] = id;
+  }
+
+  char buffer[200];
+  root.printTo(buffer, sizeof(buffer));
 
   // Send message
-  
-  
-  // Handle response
-  connected (server->client)
-    session: string (an identifier for the DDP session)
-  OR
-  failed (server->client)
-    version: string (a suggested protocol version to connect with)
-  
-  
+  _webSocketClient.sendData(buffer);
 }
-*/
 
 // Private Methods /////////////////////////////////////////////////////////////
-
-void DDP::_doSomethingSecret(void) {
-  digitalWrite(13, HIGH);
-  delay(200);
-  digitalWrite(13, LOW);
-  delay(200);
-}
-

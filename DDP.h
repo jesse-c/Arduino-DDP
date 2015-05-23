@@ -24,9 +24,22 @@ class DDP {
     void output();
     
     // DDP    
+    bool connect();
     //void connect(String session = "", int version = 1, int support[] = DDP_Versions);
-    void connect();
-    
+
+    // TODO Listen
+    void listen();
+
+    // TODO Heartbeats
+    void ping();
+    void pong(String id = "");
+
+    // TODO Managing data
+
+
+    // TODO Remote procedure calls
+
+
   private:
     WebSocketClient _webSocketClient;
     EthernetClient _client;
@@ -35,12 +48,15 @@ class DDP {
     String _path;
     int _port;
 
-    StaticJsonBuffer<200> jsonBuffer;
+    String _session;
 
-    int _value;
-    void _doSomethingSecret(void);
+    StaticJsonBuffer<200> _jsonBuffer;
 
     //const int DDP_Versions[] = {1};
+
+    //int _value;
+    //void _doSomethingSecret(void);
+
 };
 
 #endif
