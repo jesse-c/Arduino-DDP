@@ -208,22 +208,72 @@ void DDP::listen() {
     /*
      * added
      *
+     * Assume already 1 document with initial value
+     *
      * Example:
      *
      * {"msg":"added","collection":"rgb","id":"LM8HndauPqxBHqJ2b","fields":{"r":0,"g":0,"b":0}}
-     * {"msg":"added","collection":"#r","id":"LM8HndauPqxBHqJ2b","fields":{"value":0}}
+     * {"msg":"added","collection":"#r","id":"yq2q2QtmjKn2oPLCv","fields":{"value":0}}
+     * {"msg":"added","collection":"#r","id":"yq2q2QtmjKn2oPLCv","fields":{"value":"100"}}
      */
     if (data.indexOf("added") >= 0) {
       Serial.println("added");
 
+      if (data.indexOf("#r") >= 0) {
+        String value = data.substring(77, 80);
+        Serial.println("value: " + value);
+        _r = value.toInt();
+        Serial.print("_r: ");
+        Serial.println(_r);
+      }
+      if (data.indexOf("#g") >= 0) {
+        String value = data.substring(77, 80);
+        Serial.println("value: " + value);
+        _g = value.toInt();
+        Serial.print("_g: ");
+        Serial.println(_g);
+      }
+      if (data.indexOf("#b") >= 0) {
+        String value = data.substring(77, 80);
+        Serial.println("value: " + value);
+        _b = value.toInt();
+        Serial.print("_b: ");
+        Serial.println(_b);
+      }
 
       continue;
     }
     /*
      * changed
+     *
+     * Example:
+     *
+     * {"msg":"changed","collection":"#g","id":"BwRE6F3fgkfEJgt7P","fields":{"value":"011"}}
      */
     if (data.indexOf("changed") >= 0) {
       Serial.println("changed");
+
+      if (data.indexOf("#r") >= 0) {
+        String value = data.substring(79, 82);
+        Serial.println("value: " + value);
+        _r = value.toInt();
+        Serial.print("_r: ");
+        Serial.println(_r);
+      }
+      if (data.indexOf("#g") >= 0) {
+        String value = data.substring(79, 82);
+        Serial.println("value: " + value);
+        _g = value.toInt();
+        Serial.print("_g: ");
+        Serial.println(_g);
+      }
+      if (data.indexOf("#b") >= 0) {
+        String value = data.substring(79, 82);
+        Serial.println("value: " + value);
+        _b = value.toInt();
+        Serial.print("_b: ");
+        Serial.println(_b);
+      }
 
       continue;
     }
