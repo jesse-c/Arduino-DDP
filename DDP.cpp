@@ -398,8 +398,9 @@ void DDP::method() {
   // Test call test
   JsonObject& root = _jsonBuffer.createObject();
   root["msg"] = "method";
-  root["method"] = "test";
+  root["method"] = "test2";
   JsonArray& params = _jsonBuffer.createArray();
+  params.add("23");
   root["params"] = params;
   root["id"] = "1";
 
