@@ -430,6 +430,13 @@ void DDP::method() {
        *    @error      string
        *    @reason     optional string
        *    @details    optional string
+       *
+       * Example:
+       *
+       * data: {"msg":"error","reason":"Bad request","offendingMessage":{}}
+       *
+       * Restart over?
+       *
        */
 
 
