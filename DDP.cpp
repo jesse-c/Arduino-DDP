@@ -157,14 +157,20 @@ void DDP::listen() {
     if (data.indexOf("ping") >= 0) {
       Serial.println("ping");
 
-      // TODO Call pong with optional ID
       Serial.println("Pong-ing");
-      void pong();
+
+      // TODO Call pong with optional ID
+      if (data.length() > 14) {
+        //String id = data.substring();
+        void pong(/* id */);
+      } else {
+        void pong();
+      }
 
       continue;
     }
 
-    // /Pong
+    // Pong
     if (data.indexOf("pong") >= 0) {
       Serial.println("pong");
 
@@ -179,7 +185,18 @@ void DDP::listen() {
  * ping
  *    @id   optional string (identifier used to correlate with response)
  */
-void DDP::ping() {
+void DDP::ping(String id /* = "" */) {
+  JsonObject& root = _jsonBuffer.createObject();
+  root["msg"] = "ping";
+
+  if (id.length() > 0) {
+    root["id"] = id;
+  }
+
+  char buffer[200];
+  root.printTo(buffer, sizeof(buffer));
+
+  _webSocketClient.sendData(buffer);
 }
 
 /*
@@ -197,7 +214,6 @@ void DDP::pong(String id /* = "" */) {
   char buffer[200];
   root.printTo(buffer, sizeof(buffer));
 
-  // Send message
   _webSocketClient.sendData(buffer);
 }
 

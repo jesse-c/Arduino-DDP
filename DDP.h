@@ -31,7 +31,7 @@ class DDP {
     void listen();
 
     // TODO Heartbeats
-    void ping();
+    void ping(String id = "");
     void pong(String id = "");
 
     // TODO Managing data
@@ -51,6 +51,7 @@ class DDP {
     String _session;
 
     StaticJsonBuffer<200> _jsonBuffer;
+    JsonObject& _root = _jsonBuffer.createObject();
 
     //const int DDP_Versions[] = {1};
 
