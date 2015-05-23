@@ -201,9 +201,15 @@ void DDP::listen() {
     }
     /*
      * added
+     *
+     * Example:
+     *
+     * {"msg":"added","collection":"rgb","id":"LM8HndauPqxBHqJ2b","fields":{"r":0,"g":0,"b":0}}
+     * {"msg":"added","collection":"#r","id":"LM8HndauPqxBHqJ2b","fields":{"value":0}}
      */
     if (data.indexOf("added") >= 0) {
       Serial.println("added");
+
 
       continue;
     }
@@ -226,7 +232,18 @@ void DDP::listen() {
      */
     if (data.indexOf("ready") >= 0) {
       Serial.println("ready");
-      _ready = true;
+      if (data.indexOf("1") >= 0) {
+        Serial.println("R, ready");
+        _readyR = true;
+      }
+      if (data.indexOf("2") >= 0) {
+        Serial.println("G, ready");
+        _readyG = true;
+      }
+      if (data.indexOf("3") >= 0) {
+        Serial.println("B, ready");
+        _readyB = true;
+      }
       continue;
     }
 
@@ -280,13 +297,33 @@ void DDP::pong(String id /* = "" */) {
  *    @params   optional array of EJSON items (parameters to the subscription)
  */
 void DDP::sub() {
-  // Subscribe to rgb
+  // Subscribe to r, g ,b
   JsonObject& root = _jsonBuffer.createObject();
   root["msg"] = "sub";
   root["id"] = "1";
-  root["name"] = "rgb";
+  root["name"] = "#r";
 
   char buffer[200];
+  root.printTo(buffer, sizeof(buffer));
+
+  _webSocketClient.sendData(buffer);
+
+  delay(_pause);
+
+  root["msg"] = "sub";
+  root["id"] = "2";
+  root["name"] = "#g";
+
+  root.printTo(buffer, sizeof(buffer));
+
+  _webSocketClient.sendData(buffer);
+
+  delay(_pause);
+
+  root["msg"] = "sub";
+  root["id"] = "3";
+  root["name"] = "#b";
+
   root.printTo(buffer, sizeof(buffer));
 
   _webSocketClient.sendData(buffer);
@@ -352,8 +389,12 @@ void DDP::method() {
 }
 
 /* Sub ***********************************************************************/
-bool DDP::subReady() {
-  return _ready;
+bool DDP::subsReady() {
+  if (_readyR && _readyG && _readyB) {
+    return true;
+  } else {
+    return false;
+  }
 }
 /* RGB ***********************************************************************/
 int DDP::getR() {

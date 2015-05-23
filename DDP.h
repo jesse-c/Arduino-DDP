@@ -60,7 +60,7 @@ class DDP {
     void updated();
 
     /* Sub *******************************************************************/
-    bool subReady();
+    bool subsReady();
     /* RGB *******************************************************************/
     int getR();
     int getG();
@@ -82,7 +82,9 @@ class DDP {
     JsonObject& _root = _jsonBuffer.createObject();
 
     /* Subscription */
-    bool _ready = false;
+    bool _readyR = false;
+    bool _readyG = false;
+    bool _readyB = false;
     // R, G, B
     int _r = 0;
     int _g = 0;
