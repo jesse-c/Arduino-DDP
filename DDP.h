@@ -61,6 +61,11 @@ class DDP {
 
     /* Sub *******************************************************************/
     bool subReady();
+    /* RGB *******************************************************************/
+    int getR();
+    int getG();
+    int getB();
+
   private:
     int _pause = 500;
 
@@ -75,6 +80,13 @@ class DDP {
 
     StaticJsonBuffer<200> _jsonBuffer;
     JsonObject& _root = _jsonBuffer.createObject();
+
+    bool _ready = false;
+    // R, G, B
+    int _r = 0;
+    int _g = 0;
+    int _b = 0;
+
 
     //const int DDP_Versions[] = {1};
 

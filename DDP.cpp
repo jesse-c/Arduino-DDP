@@ -354,4 +354,15 @@ void DDP::method() {
 bool DDP::subReady() {
   return _ready;
 }
+/* RGB ***********************************************************************/
+int DDP::getR() {
+  return _r;
+}
+int DDP::getG() {
+  return _g;
+}
+int DDP::getB() {
+  return _b;
+}
+
 // Private Methods /////////////////////////////////////////////////////////////
