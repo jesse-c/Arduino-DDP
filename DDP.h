@@ -17,25 +17,29 @@ class DDP {
   public:
     DDP();
     
-    // WebSocket
+    /**************************************************************************
+     * WebSocket    
+     *************************************************************************/
     bool setup(String host, String path = "/", int port = 80);
     bool handshake();
 
     void output();
     void waitFor();
     
-    // DDP    
+    /**************************************************************************
+     * DDP    
+     *************************************************************************/
     bool connect();
     //void connect(String session = "", int version = 1, int support[] = DDP_Versions);
 
     // Listen
     void listen();
 
-    /* Heartbeats */
+    /* Heartbeats ************************************************************/
     void ping(String id = "");
     void pong(String id = "");
 
-    /* TODO Managing data */
+    /* Managing data *********************************************************/
     // client -> server
     void sub();
     void unsub();
@@ -48,7 +52,7 @@ class DDP {
     // addedBefore();
     // movedBefore()
 
-    /* Remote procedure calls */
+    /* Remote procedure calls ************************************************/
     // client -> server
     void method();
     // server-> client
