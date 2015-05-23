@@ -56,6 +56,8 @@ class DDP {
     void updated();
 
   private:
+    int _pause = 500;
+
     WebSocketClient _webSocketClient;
     EthernetClient _client;
 

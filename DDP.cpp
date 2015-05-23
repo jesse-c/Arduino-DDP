@@ -86,7 +86,7 @@ bool DDP::connect() {
 
   // Send message
   _webSocketClient.sendData(buffer);
-  delay(500);
+  delay(_pause);
   
   /*
    * Handle response
@@ -145,7 +145,7 @@ void DDP::listen() {
 
     if (data.length() == 0) {
       Serial.println("No data...");
-      delay(500);
+      delay(_pause);
       continue;
     }
 
@@ -177,7 +177,7 @@ void DDP::listen() {
       continue;
     }
 
-    delay(500);
+    delay(_pause);
   }
 }
 
