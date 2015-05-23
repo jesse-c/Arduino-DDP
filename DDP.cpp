@@ -271,7 +271,14 @@ void DDP::method() {
       Serial.println("Handled method/result");
 
       // TODO Params
-      //
+
+
+      /* TODO Errors
+       *    @error      string
+       *    @reason     optional string
+       *    @details    optional string
+       */
+
 
       handledResult = true;
     // data: {"msg":"updated","methods":["1"]}
