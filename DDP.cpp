@@ -440,6 +440,13 @@ void DDP::method() {
       handledUpdated = true;
     }
 
+    if (!handledResult) {
+      Serial.println("Waiting for method/result");
+    }
+    if (!handledUpdated) {
+      Serial.println("Waiting for method/updated");
+    }
+
     delay(_pause);
   }
 }
