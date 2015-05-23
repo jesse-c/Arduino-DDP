@@ -81,6 +81,7 @@ class DDP {
     StaticJsonBuffer<200> _jsonBuffer;
     JsonObject& _root = _jsonBuffer.createObject();
 
+    /* Subscription */
     bool _ready = false;
     // R, G, B
     int _r = 0;

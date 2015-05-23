@@ -236,6 +236,7 @@ void DDP::listen() {
   }
 }
 
+/* Heartbeats ****************************************************************/
 /*
  * ping
  *    @id   optional string (identifier used to correlate with response)
