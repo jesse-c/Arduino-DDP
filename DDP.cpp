@@ -175,9 +175,9 @@ void DDP::listen() {
       // TODO Call pong with optional ID
       if (data.length() > 14) {
         //String id = data.substring();
-        void pong(/* id */);
+        pong(/* id */);
       } else {
-        void pong();
+        pong();
       }
 
       continue;
