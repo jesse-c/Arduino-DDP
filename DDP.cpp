@@ -117,11 +117,13 @@ bool DDP::connect() {
     _session = response.substring(30, 47);
   } 
   
-  // Wait for sid msg
+  // Wait up to ~2.5 seconds for sid msg
   // {"sid":"e82638f4-2122-47c9-aea2-12189b6866dd","msg":"streamy$sid"}
+  int sid = 0;
   _webSocketClient.getData(response);
-  while (response.indexOf("sid") == -1) {
+  while (response.indexOf("sid") == -1 && sid < 5) {
     Serial.println("Waiting for sid msg");
+    sid++;
     delay(_pause);
   }
   Serial.println("Got sid msg");
