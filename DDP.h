@@ -22,23 +22,38 @@ class DDP {
     bool handshake();
 
     void output();
+    void waitFor();
     
     // DDP    
     bool connect();
     //void connect(String session = "", int version = 1, int support[] = DDP_Versions);
 
-    // TODO Listen
+    // Listen
     void listen();
 
-    // TODO Heartbeats
+    /* Heartbeats */
     void ping(String id = "");
     void pong(String id = "");
 
-    // TODO Managing data
+    /* TODO Managing data */
+    // client -> server
+    void sub();
+    void unsub();
+    // server -> client
+    void nosub();
+    void added();
+    void changed();
+    void removed();
+    void ready();
+    // addedBefore();
+    // movedBefore()
 
-
-    // TODO Remote procedure calls
-
+    /* TODO Remote procedure calls */
+    // client -> server
+    void method();
+    // server-> client
+    void result();
+    void updated();
 
   private:
     WebSocketClient _webSocketClient;
