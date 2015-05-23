@@ -68,6 +68,9 @@ void DDP::output() {
     Serial.println(data);
   }
 }
+
+void DDP::waitFor() {
+}
  
 /*
  * connect (client -> server)
@@ -125,7 +128,7 @@ bool DDP::connect() {
 
   return status;
 
-  /*
+  /* TODO Use parseObject
   root = _jsonBuffer.parseObject(response);
   if (!root.success()) {
     Serial.println("parseObject() failed");
@@ -162,6 +165,7 @@ void DDP::listen() {
     Serial.print("data: ");
     Serial.println(data);
 
+    /* Heartbeats ************************************************************/
     // Ping
     if (data.indexOf("ping") >= 0) {
       Serial.println("ping");
@@ -185,6 +189,9 @@ void DDP::listen() {
 
       continue;
     }
+
+    /* Managing data *********************************************************/
+
 
     delay(_pause);
   }
@@ -226,4 +233,5 @@ void DDP::pong(String id /* = "" */) {
   _webSocketClient.sendData(buffer);
 }
 
+/* Remote procedure calls ****************************************************/
 // Private Methods /////////////////////////////////////////////////////////////

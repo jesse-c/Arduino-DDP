@@ -48,7 +48,7 @@ class DDP {
     // addedBefore();
     // movedBefore()
 
-    /* TODO Remote procedure calls */
+    /* Remote procedure calls */
     // client -> server
     void method();
     // server-> client
