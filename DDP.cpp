@@ -112,7 +112,16 @@ bool DDP::connect() {
     status = true;
     // {"msg":"connected","session":"zwKbMXqs7jcKrke4Y"}
     _session = response.substring(30, 47);
+  } 
+  
+  // Wait for sid msg
+  // {"sid":"e82638f4-2122-47c9-aea2-12189b6866dd","msg":"streamy$sid"}
+  _webSocketClient.getData(response);
+  while (response.indexOf("sid") == -1) {
+    Serial.println("Waiting for sid msg");
+    delay(_pause);
   }
+  Serial.println("Got sid msg");
 
   return status;
 
