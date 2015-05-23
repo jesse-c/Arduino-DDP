@@ -191,6 +191,45 @@ void DDP::listen() {
     }
 
     /* Managing data *********************************************************/
+    /*
+     * nosub
+     */
+    if (data.indexOf("nosub") >= 0) {
+      Serial.println("nosub");
+
+      continue;
+    }
+    /*
+     * added
+     */
+    if (data.indexOf("added") >= 0) {
+      Serial.println("added");
+
+      continue;
+    }
+    /*
+     * changed
+     */
+    if (data.indexOf("changed") >= 0) {
+      Serial.println("changed");
+
+      continue;
+    }
+    /*
+     * ready
+     *
+     * When one or more subscriptions have finished sending their initial batch of data, the server will send a ready message with their IDs.
+     *
+     * Example:
+     *
+     * {"msg":"ready","subs":["1"]}
+     */
+    if (data.indexOf("ready") >= 0) {
+      Serial.println("ready");
+      _ready = true;
+      continue;
+    }
+
 
 
     delay(_pause);
@@ -226,6 +265,25 @@ void DDP::pong(String id /* = "" */) {
   if (id.length() > 0) {
     root["id"] = id;
   }
+
+  char buffer[200];
+  root.printTo(buffer, sizeof(buffer));
+
+  _webSocketClient.sendData(buffer);
+}
+/* Managing data *************************************************************/
+/*
+ * sub
+ *    @id       string (an arbitrary client-determined identifier for this subscription)
+ *    @name     string (the name of the subscription)
+ *    @params   optional array of EJSON items (parameters to the subscription)
+ */
+void DDP::sub() {
+  // Subscribe to rgb
+  JsonObject& root = _jsonBuffer.createObject();
+  root["msg"] = "sub";
+  root["id"] = "1";
+  root["name"] = "rgb";
 
   char buffer[200];
   root.printTo(buffer, sizeof(buffer));
@@ -292,4 +350,8 @@ void DDP::method() {
   }
 }
 
+/* Sub ***********************************************************************/
+bool DDP::subReady() {
+  return _ready;
+}
 // Private Methods /////////////////////////////////////////////////////////////

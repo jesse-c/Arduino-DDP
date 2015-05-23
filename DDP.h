@@ -59,6 +59,8 @@ class DDP {
     void result();
     void updated();
 
+    /* Sub *******************************************************************/
+    bool subReady();
   private:
     int _pause = 500;
 
