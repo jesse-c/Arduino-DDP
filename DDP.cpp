@@ -295,6 +295,43 @@ void DDP::listen() {
       continue;
     }
 
+    /* Remote procedure calls ************************************************/
+    // Don't move on till we've handled the expected result and updated msgs
+
+    // Examples
+    // data: {"msg":"result","id":"1"}
+    // {"msg":"result","id":"1","result":"test"}
+    if (data.indexOf("result") >= 0) {
+      Serial.println("Handled method/result");
+
+      // TODO Params
+
+
+      /* TODO Errors
+       *    @error      string
+       *    @reason     optional string
+       *    @details    optional string
+       *
+       * Example:
+       *
+       * data: {"msg":"error","reason":"Malformed method invocation","offendingMessage":{"msg":"method","method":"test2"}}
+       * data: {"msg":"error","reason":"Bad request","offendingMessage":{}}
+       *
+       * Restart over?
+       *
+       */
+      if (data.indexOf("error") >= 0) {
+        Serial.println("error");
+      }
+
+      //_handledResult = true;
+    // data: {"msg":"updated","methods":["1"]}
+    } 
+    if (data.indexOf("updated") >= 0) {
+      Serial.println("Handled method/updated");
+
+      //_handledUpdated = true;
+    }
 
 
     delay(_pause);
@@ -400,55 +437,6 @@ void DDP::method() {
   root.printTo(buffer, sizeof(buffer));
 
   _webSocketClient.sendData(buffer);
-
-  // Don't move on till we've handled the expected result and updated msgs
-  bool handledResult = false;
-  bool handledUpdated = false;
-
-  while (!handledResult || !handledUpdated) {
-    String data;
-    _webSocketClient.getData(data);
-
-    // Examples
-    // data: {"msg":"result","id":"1"}
-    // {"msg":"result","id":"1","result":"test"}
-    if (data.length() > 0 && data.indexOf("result") >= 0) {
-      Serial.println("Handled method/result");
-
-      // TODO Params
-
-
-      /* TODO Errors
-       *    @error      string
-       *    @reason     optional string
-       *    @details    optional string
-       *
-       * Example:
-       *
-       * data: {"msg":"error","reason":"Bad request","offendingMessage":{}}
-       *
-       * Restart over?
-       *
-       */
-
-
-      handledResult = true;
-    // data: {"msg":"updated","methods":["1"]}
-    } else if (data.length() > 0 && data.indexOf("updated") >= 0) {
-      Serial.println("Handled method/updated");
-
-      handledUpdated = true;
-    }
-
-    if (!handledResult) {
-      Serial.println("Waiting for method/result");
-    }
-    if (!handledUpdated) {
-      Serial.println("Waiting for method/updated");
-    }
-
-    delay(_pause);
-  }
 }
 
 /* Sub ***********************************************************************/
