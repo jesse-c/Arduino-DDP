@@ -68,6 +68,7 @@ class DDP {
 
   private:
     int _pause = 500;
+    int _timer = 0;
 
     WebSocketClient _webSocketClient;
     EthernetClient _client;

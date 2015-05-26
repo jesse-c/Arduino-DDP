@@ -143,12 +143,19 @@ bool DDP::connect() {
 void DDP::listen() {
   // TODO Check for Meteor connection too
   while(_client.connected()) {
+    // Proactively keep the heartbeat going
+    if (_timer >= 40) {
+      _timer = 0;
+      ping();
+    }
+
     String data;
     _webSocketClient.getData(data);
 
     if (data.length() == 0) {
       Serial.println("No data...");
       delay(_pause);
+      _timer++;
       continue;
     }
 
