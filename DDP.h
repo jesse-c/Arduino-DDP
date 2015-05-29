@@ -54,7 +54,7 @@ class DDP {
 
     /* Remote procedure calls ************************************************/
     // client -> server
-    void method();
+    void method(int readR, int readG, int readB);
     // server-> client
     void result();
     void updated();
@@ -67,8 +67,8 @@ class DDP {
     int getB();
 
   private:
-    int _pause = 500;
-    int _timer = 0;
+    int _pause = 1000;
+    int _timer = 1;
 
     WebSocketClient _webSocketClient;
     EthernetClient _client;
@@ -86,6 +86,9 @@ class DDP {
     bool _readyR = false;
     bool _readyG = false;
     bool _readyB = false;
+    bool _addedR = false;
+    bool _addedG = false;
+    bool _addedB = false;
     // R, G, B
     int _r = 0;
     int _g = 0;

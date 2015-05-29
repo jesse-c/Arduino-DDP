@@ -26,6 +26,7 @@ bool DDP::setup(String host, String path /* = "/" */, int port /* = 80 */) {
     
   // Connect to the websocket server
   if (_client.connect("192.168.0.3", 3000)) {
+  //if (_client.connect("winter.ceit.uq.edu.au", 4000)) {
     Serial.println("Connected to server");
     connected = true;
     
@@ -141,12 +142,19 @@ bool DDP::connect() {
  * listen
  */
 void DDP::listen() {
+  Serial.println("In listen()");
+  Serial.println(_timer);
   // TODO Check for Meteor connection too
   while(_client.connected()) {
     // Proactively keep the heartbeat going
-    if (_timer >= 40) {
-      _timer = 0;
+    if (_timer % 40 == 0) {
       ping();
+    }
+
+    if (_timer % 10 == 0) {
+      _timer++;
+      Serial.println("Returning from listen()");
+      return;
     }
 
     String data;
@@ -412,6 +420,8 @@ void DDP::sub() {
   root.printTo(buffer, sizeof(buffer));
 
   _webSocketClient.sendData(buffer);
+
+  delay(_pause * 2);
 }
 
 /* Remote procedure calls ****************************************************/
@@ -423,15 +433,15 @@ void DDP::sub() {
  *    @id           string (an arbitrary client-determined identifier for this method call)
  *    @randomSeed   optional JSON value (an arbitrary client-determined seed for pseudo-random generators)
  */
-void DDP::method() {
+void DDP::method(int readR, int readG, int readB) {
   // Test call test
   JsonObject& root = _jsonBuffer.createObject();
   root["msg"] = "method";
   root["method"] = "readSensor";
   JsonArray& params = _jsonBuffer.createArray();
-  params.add("0");
-  params.add("1");
-  params.add("2");
+  params.add(readR);
+  params.add(readG);
+  params.add(readB);
   root["params"] = params;
   root["id"] = "1";
 
@@ -443,7 +453,7 @@ void DDP::method() {
 
 /* Sub ***********************************************************************/
 bool DDP::subsReady() {
-  if (_readyR && _readyG && _readyB) {
+  if (_readyR && _readyG && _readyB && _addedR && _addedG && _addedB) {
     return true;
   } else {
     return false;
