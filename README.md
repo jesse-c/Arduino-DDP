@@ -1,7 +1,7 @@
 Arduino DDP library
 ==================
 
-A simple implementation of [DDP (version 1](https://github.com/meteor/meteor/blob/devel/packages/ddp/DDP.md) for Arduinos.
+A simple implementation of [DDP (version 1)](https://github.com/meteor/meteor/blob/devel/packages/ddp/DDP.md) for Arduinos.
 
 _Primarily created for use in my thesis project for [CEIT](http://ceit.uq.edu.au) at [The University of Queensland](http://www.uq.edu.au). At the moment it's specific to my project though that will change._
 
