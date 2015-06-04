@@ -36,10 +36,10 @@ Im
 After a connection has successfully been made, `listen()` checks for any data on the line and if any is found, what type of message it was. It then calls the appropriate function.
 
 #### Heartbeats
-`void ping(String id = "")`y
+`void ping(String id = "")`
 Partially implemented—doesn't yet response with ID if one was included.
 
-`void pong(String id = "")`y
+`void pong(String id = "")`
 Partially implemented—doesn't yet response with ID if one was included.
 
 #### Managing data
