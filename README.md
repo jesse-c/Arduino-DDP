@@ -3,7 +3,7 @@ Arduino DDP library
 
 A simple implementation of [DDP (version 1)](https://github.com/meteor/meteor/blob/devel/packages/ddp/DDP.md) for Arduinos.
 
-_Primarily created for use in my thesis project for [CEIT](http://ceit.uq.edu.au) at [The University of Queensland](http://www.uq.edu.au). At the moment it's specific to my project though that will change._
+_Primarily created for use in my [thesis project](https://github.com/jesse-c/thesis-sensor) for [CEIT](http://ceit.uq.edu.au) at [The University of Queensland](http://www.uq.edu.au). At the moment it's specific to my project though that will change._
 
 
 Quick start
@@ -21,6 +21,8 @@ Quick start
       ddp.sub();
       ddp.listen();
     }
+
+[Being used in my thesis project](https://github.com/jesse-c/thesis-sensor)
 
 Documentation
 -------------
@@ -103,3 +105,7 @@ Tested on:
 TODO
 ----
 - Add tests
+
+Contributing
+-------------
+Contributions are welcome!
