@@ -27,70 +27,73 @@ Quick start
 Documentation
 -------------
 #### Connecting
-`bool setup(String host, String path ="/", int port = 80)`
+    bool setup(String host, String path ="/", int port = 80)
 Partialyl implemented. `host` params not currently used.
 
-`bool connect()`
+    bool connect()
 Im
 
 #### Listening
-` void listen()`
+    void listen()
 After a connection has successfully been made, `listen()` checks for any data on the line and if any is found, what type of message it was. It then calls the appropriate function.
 
 #### Heartbeats
-`void ping(String id = "")`
+    void ping(String id = "")
 Partially implemented—doesn't yet response with ID if one was included.
 
-`void pong(String id = "")`
+    void pong(String id = "")
 Partially implemented—doesn't yet response with ID if one was included.
 
 #### Managing data
 #### Client → Server
-`void sub()`
+    void sub()
 Partiually implemented
 
-`void unsub()`
+    void unsub()
 Not yet implemeneted
 
 #### Server → Client
-`void nosub()`
+    void nosub()
 Not yet implemeneted
 
-`void added()`
+    void added()
 Partially implemented.
 
-`void changed()`
+    void changed()
 Partially implemented.
 
-`void removed()`
+    void removed()
 Not yet implemeneted
 
-`void ready()`
+    void ready()
 Partially implemented.
 
-`void addedBefore()`
+    void addedBefore()
 Not yet implemeneted
 
-`void movedBefore()`
+    void movedBefore()
 Not yet implemeneted
 
 #### Remote procedure calls
 #### Client → Server
-`void method()`
+    void method()
 Partially implemented.
 
 #### Server → Client
-`void result()`
+    void result()
 Partially implemented.
 
-`void updated()`
+    void updated()
 Partially implemented.
 
 Dependencies
 -----------
 
 [ArduinoJson](https://github.com/bblanchon/ArduinoJson)
+
 [Arduino-Websocket](https://github.com/brandenhall/Arduino-Websocket)
+
+At the moment these work by using absolute paths for them which is not ideal.
 
 Notes
 -----
