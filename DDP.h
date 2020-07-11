@@ -9,9 +9,9 @@
 
 #include <Arduino.h>
 #include <Ethernet.h>
-#include "/Users/jesse/Dropbox/university/engg4802/src/examples/pwm/hardware/pwm/libs/Arduino-Websocket/WebSocketClient.h"
-//#include "/Users/jesse/Dropbox/university/engg4802/src/examples/pwm/hardware/pwm/libs/ArduinoWebsocketClient/WebSocketClient.h"
-#include "/Users/jesse/Dropbox/university/engg4802/src/examples/pwm/hardware/pwm/libs/ArduinoJson/ArduinoJson.h"
+#include "./libs/Arduino-Websocket/WebSocketClient.h"
+//#include "./libs/ArduinoWebsocketClient/WebSocketClient.h"
+#include "./libs/ArduinoJson/ArduinoJson.h"
 
 class DDP {
   public:

@@ -8,6 +8,8 @@ _Primarily created for use in my [thesis project](https://github.com/jesse-c/the
 
 Quick start
 ----------
+
+```
     DDP ddp = DDP();
 
     void setup() {
@@ -21,11 +23,13 @@ Quick start
       ddp.sub();
       ddp.listen();
     }
+```
 
 [Being used in my thesis project](https://github.com/jesse-c/thesis-sensor)
 
 Documentation
 -------------
+
 #### Connecting
     bool setup(String host, String path ="/", int port = 80)
 Partialyl implemented. `host` params not currently used.
@@ -94,6 +98,9 @@ Dependencies
 [Arduino-Websocket](https://github.com/brandenhall/Arduino-Websocket)
 
 At the moment these work by using absolute paths for them which is not ideal.
+
+You'll need to download them locally. You can attempt to use them included as 
+submodules. Run `git submodule update --recursive`.
 
 Notes
 -----
